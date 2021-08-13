@@ -634,12 +634,33 @@ namespace test12
 		v2++;
 		cout << v1 << v2 << endl;
 	}
+
+	
+	void printI(int& v) {
+		cout << "我是左值引用" << endl;
+	}
+	void printI(int&& v) {
+		cout << "我是右值引用" << endl;
+	}
+	template<typename T>
+	void printTemp(T&& v) {
+		//这里的万能引用，能接左值，右值，但它本身是左值
+		printI(v);
+		printI(std::move(v));//强制转换为右值
+		printI(std::forward<T>(v));//原本是啥就是啥
+	}
 	void func() {
 		int x = 10;
 		//myfunc(1,x);
 
-		myFuncTemplate(myfunc,10,x);
-		cout << "x=" << x << endl;
+		//myFuncTemplate(myfunc,10,x);
+		//cout << "x=" << x << endl;
+
+		//printTemp(printI,1);
+		//printTemp(printI,x);
+
+		printTemp(33);
+		printTemp(x);
 	}
 }
 int main()
