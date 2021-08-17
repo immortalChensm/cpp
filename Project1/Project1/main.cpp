@@ -663,8 +663,103 @@ namespace test12
 		printTemp(x);
 	}
 }
+namespace test13{
+
+
+	void test()
+	{
+		cout << "test" << endl;
+	}
+	class A {
+	public:
+		//static const auto x = 100;
+		//auto y = 101;
+	};
+	//void bbb(auto x) {}
+	class X {
+	public:
+		static int test() {
+			return 10;
+		}
+	};
+	class Y {
+	public:
+		static double test() {
+			return 10.2;
+		}
+	};
+	template<typename t>
+	void jack() {
+
+		auto v = t::test();
+		cout <<v << endl;
+	}
+	void func()
+	{
+
+		jack<X>();
+		jack<Y>();
+		//cout<< Y::test();
+
+		/*int x = 10;
+		int&& y = std::move(x);
+		y = 100;
+		cout << x << y << endl;
+
+		int&& z = std::forward<int>(x);
+		z = 101;
+		cout << x << y << z << endl;*/
+
+		/*auto x = 100;
+		auto y = x;
+		cout << x << y << endl;*/
+		/*auto y = 100;
+		auto& z = y;
+		z = 101;
+		cout << z << y << endl;
+
+		auto* x = &y;
+		*x = 200;
+		cout << *x << y << z << endl;*/
+
+		/*auto x = 10;
+		auto&& y = x;
+		y = 90;
+		cout << x << y << endl;*/
+
+		/* char x[] = "ssss";
+		auto p = x;
+		p[0] = 'j';
+
+		cout << p << x << endl;*/
+
+		/*auto f = test;
+		f();
+
+		auto& f1 = f;
+		f1();*/
+
+		//std::map<int, string> mas;
+		//mas.insert({1,"jack"});
+		//mas.insert({ 2,"tom" });
+		//std::map<int, string>::iterator itr;
+		////for (itr = mas.begin(); itr != mas.end(); itr++) {
+		//for (auto itr = mas.begin(); itr != mas.end(); itr++) {
+
+		//	cout << itr->first << itr->second << endl;
+		//}
+
+		//auto x{ 2 };
+		//auto y = { 4 };
+		//auto z(199);
+
+		//cout << x << y[0] << z << endl;
+
+		//auto f = test;
+	}
+}
 int main()
 {
 
-	test12::func();
+	test13::func();
 }
