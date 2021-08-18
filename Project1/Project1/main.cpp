@@ -758,8 +758,75 @@ namespace test13{
 		//auto f = test;
 	}
 }
+namespace test14
+{
+	template<typename T>
+	class A {
+	public:
+		//typename T::iterator itr;
+		decltype(T().begin()) itr;
+		void getB(T &t) {
+
+			itr = t.begin();
+			cout << *itr << endl;
+		}
+	};
+	void test() {
+		cout << "tst" << endl;
+	}
+	void func()
+	{
+		//int x = 10;
+		//int* p = &x;
+		//引用 
+		//decltype(*p) j = x;
+
+		//j = 101;
+		//cout << x << x << endl;
+
+		//引用
+		int x = 10;
+		decltype((x)) k = x;
+		k = 99;
+		cout << k << x << endl;
+
+		/*using condt = std::vector<int>;
+		condt myarr = { 1,2,3 };
+
+		A<condt> obj;
+		obj.getB(myarr);*/
+
+		/*decltype(9) i = 10;
+		cout << i << endl;
+
+		int x = 10;
+		decltype(x) j = x;
+		j = 100;
+		cout << x << j << endl;*/
+
+		/* int j = 20;
+		int* p = &j;
+		decltype(p) x = &j;
+		*x = 100;
+		cout << j << *p << *x << endl;*/
+
+		//const int x = 999;
+		//decltype(x) j = x;
+		//j = 33;
+
+
+		//char p[] = "test";
+		//decltype(p) m = "tom";
+
+		//cout << p << m << endl;
+
+		/*decltype(test) *f ;
+		f = test;
+		f();*/
+	}
+}
 int main()
 {
 
-	test13::func();
+	test14::func();
 }
