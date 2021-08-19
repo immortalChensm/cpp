@@ -825,8 +825,66 @@ namespace test14
 		f();*/
 	}
 }
+namespace test15
+{
+	int tf(int& v) {
+		return v;
+	}
+	double tf(double& v) {
+		return v;
+	}
+
+	template<typename T>
+	auto myFunc(T& t)->decltype(tf(t)) {
+		return tf(t);
+	}
+	auto myf() {
+		return 10;
+	}
+
+
+	decltype(auto) v1() {
+		return 10;
+	}
+	decltype(auto) v2() {
+		return (10);
+	}
+	void func() {
+
+		int x = 10;
+		//cout << v1() << endl;
+		///v1() x = 10;
+
+		//decltype(v2()) v = 12;
+		//cout << v << endl;
+
+		decltype(auto) j = x;
+
+		cout << j << x << endl;
+
+		std::function<decltype(myf)> fu = myf;
+		
+		cout << "auto "<<fu() << endl;
+
+		//cout << myFunc(x) << endl;
+		//cout << myf() << endl;
+
+		/*std::vector<int> my = { 1,2,3 };
+		cout << my.size() << endl;
+
+		std::vector<int>::size_type s = my.size();
+		cout << s << endl;
+
+		decltype(my)::size_type s1 = my.size();
+
+		cout << s << endl;
+
+		decltype(sizeof(int)) i = 10;
+		cout << i << endl;*/
+	}
+}
 int main()
 {
 
-	test14::func();
+	test15::func();
 }
