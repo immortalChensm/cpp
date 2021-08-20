@@ -883,8 +883,76 @@ namespace test15
 		cout << i << endl;*/
 	}
 }
+namespace test16
+{
+	void pt(int v) {
+		cout << "pt " << v << endl;
+	}
+	class A {
+	public:
+		void operator()(int v) {
+			cout << "A operator " << v << endl;
+		}
+
+		static void jack(int v) {
+			cout << "jack " << v << endl;
+		}
+	};
+	class B {
+		using func = void(*)(int v);
+	public:
+		static void test(int v) {
+			cout << "B operator " << v << endl;
+		}
+		operator func() {
+			return test;
+		}
+	};
+
+	void testffff(int c, std::function<void(int) > f) {
+
+		f(c);
+	}
+	void func()
+	{
+
+		//B obj;
+		
+		//std::function<void(int)> f1 = pt;
+		//std::function<void(int)> f1 = A();
+		//std::function<void(int)> f1 = B();
+		//void(*f1)(int) = B();
+		//std::function<void(int)> f1 = &A::jack;
+		//f1(22);
+
+		//testffff(1001,B());
+		//testffff(1001,A());
+
+		//auto f1 = std::bind(A(),std::placeholders::_1);
+		//auto f1 = std::bind(B(),std::placeholders::_1);
+		//auto f1 = std::bind(A::jack,std::placeholders::_1);
+		auto f1 = std::bind(&pt,std::placeholders::_1);
+		f1(99999);
+
+		/*void(*f)(int);
+		f = pt;
+		f(10);
+
+
+		A obj;
+		obj(100);
+
+		B obj1;
+		obj1.test(3);
+
+		void(* fl)(int) ;
+		fl = A::jack;
+		decltype(A::jack) *fl = &A::jack;
+		fl(1);*/
+	}
+}
 int main()
 {
 
-	test15::func();
+	test16::func();
 }
