@@ -890,13 +890,28 @@ namespace test16
 	}
 	class A {
 	public:
+		A() {
+			cout << "A 构造函数" << endl;
+		}
+		~A() {
+			cout << "A析构函数" << endl;
+		}
+
+		A(const A& obj) {
+			cout << "A拷贝函数" << endl;
+		}
 		void operator()(int v) {
 			cout << "A operator " << v << endl;
 		}
-
-		static void jack(int v) {
+		 void tom(int v) {
+			m_a = v;
 			cout << "jack " << v << endl;
 		}
+		static void jack(int v) {
+			
+			cout << "jack " << v << endl;
+		}
+		int m_a;
 	};
 	class B {
 		using func = void(*)(int v);
@@ -916,6 +931,25 @@ namespace test16
 	void func()
 	{
 
+		A obj;
+
+		//auto x1 = std::bind(&A::tom,&obj,std::placeholders::_1);
+		//x1(4);
+
+		//auto x1 = std::bind(A::jack, std::placeholders::_1);
+		//auto x1 = std::bind(A::jack, 888);
+		//x1();
+		//cout << obj.m_a << endl;
+
+		auto x1 = std::bind(&A::tom,&obj,std::placeholders::_1);
+		testffff(100,x1);
+
+		//std::function<int&()> x = std::bind(&A::m_a,&obj);
+		//
+		//x() = 10;
+
+		
+
 		//B obj;
 		
 		//std::function<void(int)> f1 = pt;
@@ -931,8 +965,8 @@ namespace test16
 		//auto f1 = std::bind(A(),std::placeholders::_1);
 		//auto f1 = std::bind(B(),std::placeholders::_1);
 		//auto f1 = std::bind(A::jack,std::placeholders::_1);
-		auto f1 = std::bind(&pt,std::placeholders::_1);
-		f1(99999);
+		//auto f1 = std::bind(&pt,std::placeholders::_1);
+		//f1(99999);
 
 		/*void(*f)(int);
 		f = pt;
