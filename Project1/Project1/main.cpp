@@ -948,6 +948,12 @@ namespace test16
 		//
 		//x() = 10;
 
+
+		//std::function<void(int)> f1 = std::bind(&A::tom,&obj,10);
+		//std::function<void(int)> f1 = std::bind(&A::jack,std::placeholders::_1);
+		//std::function<void(int)> f1 = &A::tom;//不可以
+		std::function<void(int)> f1 = &A::jack;//可以
+		f1(2);
 		
 
 		//B obj;
@@ -985,8 +991,88 @@ namespace test16
 		fl(1);*/
 	}
 }
+namespace test17
+{
+	class A {
+
+	public :
+		int x = 10;
+		void test(int a, int b) {
+
+			auto f = [this]() {
+				x = 101;
+			};
+			f();
+			cout << x << a << b << endl;
+		}
+	};
+	void func()
+	{
+		/*auto f1 = [](int v) ->int {
+		
+			return v+100;
+		};
+		cout << f1(2);*/
+
+		/*auto f2 = [] {
+			cout << "100" << endl;
+		};
+
+		f2();*/
+		/*int x = 10;
+		int y = 20;
+		auto f3 = [=, &x] {
+			return y + x;
+		};
+
+		cout << f3()<<endl;*/
+		/*int x = 10;
+		int y = 20;
+		auto f4 = [&, x] {
+			y = 100;
+			cout << y << x << endl;
+		};
+
+		f4();
+		cout << x << y << endl;*/
+
+		/*A obj;
+		obj.test(1,2);*/
+		//int x = 10;
+		//std::function<int(int)> f = std::bind([=](int v) {return v; }, std::placeholders::_1);
+		//cout << f(x) << endl;
+
+		/*[]() {
+			cout << "china" << endl;
+		}();*/
+
+		//std::vector<int> l = { 1,2,3,4,5 };
+
+		/*for_each(l.begin(), l.end(), [](int x) {
+			cout << "l ," << x << endl;
+			});*/
+
+		/*auto z = find_if(l.begin(), l.end(), [](int p) {
+				
+			cout << p << endl;
+
+			return false;
+			});*/
+
+		int x = 10;
+		auto f = [=]()mutable {
+		
+			x = 0;
+			cout << x << endl;
+		};
+
+		f();
+		cout << x << endl;
+
+	}
+}
 int main()
 {
 
-	test16::func();
+	test17::func();
 }
