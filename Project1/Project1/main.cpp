@@ -1059,7 +1059,7 @@ namespace test17
 			return false;
 			});*/
 
-		int x = 10;
+		/*int x = 10;
 		auto f = [=]()mutable {
 		
 			x = 0;
@@ -1067,12 +1067,77 @@ namespace test17
 		};
 
 		f();
-		cout << x << endl;
+		cout << x << endl;*/
 
+	}
+} 
+
+std::vector < std::function<bool(int)> >gs;
+namespace test18
+{
+	void myfunc()
+	{
+		
+		srand(unsigned int(time(NULL)));
+
+		int tmp = rand() % 10;
+
+		//auto f = [=](int v)->bool {
+		auto f = [=](auto v)->bool {
+			
+			cout << tmp <<v<< endl;
+			return tmp;
+		};
+		gs.push_back(f);
+
+		tmp++;
+	}
+
+	class A {
+	public:
+		int tmp = 9;
+	public:
+		void add()
+		{
+
+			int copy = tmp;//拷贝一分
+			static int x = 101;//静态变量【其实会存放在全局数据区】
+			//效果类似引用捕获
+			auto f = [copy=tmp](int v) { //这里感觉是按值捕获
+				//如果按值捕获应该有备份，但运行时根本没有
+				
+				cout << "v =" << v << ",copy=" << copy <<"x="<<x<< endl;
+				return true;
+			};
+			x++;
+			gs.push_back(f);
+			x++;
+		}
+	};
+	void func()
+	{
+		
+		//myfunc();
+
+		//gs[0](2);
+		//A obj;
+		//obj.add();
+
+		//gs[0](1);
+
+		A* obj = new A;
+
+		obj->add();
+
+		delete obj;
+
+		gs[0](2);
+
+		//delete obj;
 	}
 }
 int main()
 {
 
-	test17::func();
+	test18::func();
 }
