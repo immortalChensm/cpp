@@ -1136,8 +1136,37 @@ namespace test18
 		//delete obj;
 	}
 }
+namespace test19
+{
+	class A {
+	public:
+		//char a = 10;
+		//int a = 300;
+		//static int a;
+
+		void func() {}
+		static void t2est() {}
+
+		virtual void test() {}
+		virtual void test2() {}
+		virtual void test3() {}
+	public:
+		float x;
+		static int y;
+	};
+	//int A::a = 10;
+	void func()
+	{
+
+		A obj;
+		int i = sizeof(obj);
+		cout << i << endl;
+
+		//printf("%p,%p\r\n",&obj,&obj.a);
+	}
+}
 int main()
 {
 
-	test18::func();
+	test19::func();
 }
