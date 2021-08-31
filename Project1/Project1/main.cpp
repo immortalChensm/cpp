@@ -1165,8 +1165,89 @@ namespace test19
 		//printf("%p,%p\r\n",&obj,&obj.a);
 	}
 }
+namespace test20{
+
+	class A {
+	public:
+		int a;
+		A() {
+			cout << "A::A" << this << endl;
+		}
+		void funcA() {
+			cout << "A::funcA" << this << endl;
+		}
+	};
+	class B {
+	public:
+		int b;
+		B() {
+			cout << "B::B" << this << endl;
+		}
+		void funcB() {
+			cout << "B::funcB" << this << endl;
+		}
+	};
+	class C:public A, public B {
+	public:
+		int c;
+		C() {
+			cout << "C::C" << this << endl;
+		}
+		void funcC() {
+			cout << "C::funcC" << this << endl;
+		}
+		void funcB() {
+			cout << "C::funcB" << this << endl;
+		}
+	};
+	void func()
+	{
+
+		C obj;
+		//C类先继承A类，再继承B类  ，所以C的内存结构如下
+		/*************************/
+		//int a
+		//int b
+		//int c 
+		/*************************/
+		//C的起始地址和A类的起始地址是一样的
+
+		//this 指针调整
+		obj.funcA();
+		obj.funcB();
+		obj.B::funcB();
+		obj.funcC();
+
+		cout << sizeof(C) << endl;
+
+	}
+}
+namespace test21
+{
+	class A {
+	public:
+		int a;
+		A() {
+			cout << "A" << endl;
+		}
+	};
+
+	class C {
+	public:
+		A obj;
+		void func() {
+			cout << "func" << endl;
+		}
+	};
+	void func()
+	{
+		//C被编译器默认合并了构造函数
+		C obj;
+		obj.func();
+	}
+}
 int main()
 {
 
-	test19::func();
+	test21::func();
 }
