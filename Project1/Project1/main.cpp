@@ -1246,8 +1246,55 @@ namespace test21
 		obj.func();
 	}
 }
+namespace test22
+{
+
+	class Grand {
+	public:
+
+	};
+	class A:virtual public Grand {
+	public:
+		A() {
+			cout << "编译器合成的默认构造函数调用我" << endl;
+		}
+
+	};
+
+	//class B :public A {
+	class B :virtual public Grand {
+	public:
+		void test()
+		{
+			cout << "test" << endl;
+		}
+		/*virtual void china() {
+			cout << "virtual void china" << endl;
+		}*/
+	};
+	class C :public A, public B {
+	public:
+
+	};
+	void func()
+	{
+
+		//B obj;
+		//obj.test();
+		//编译器在如下情况会合成（插入）默认构造函数
+		//1 类含有类成员变量，且类成员的类有构造函数
+		//2 类有虚函数
+		//3 继承父类，父类有构造函数
+		//4 存在多重继承，如虚继承
+		C obj;
+		obj.test();
+	}
+}
 int main()
 {
 
-	test21::func();
+	//test22::func();
+
+
+	return 0;
 }
