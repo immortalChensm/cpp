@@ -1290,11 +1290,88 @@ namespace test22
 		obj.test();
 	}
 }
+namespace test23
+{
+	class Ason {
+	public:
+		Ason() {
+
+		}
+		Ason(const Ason& obj) {
+			cout << "Ason拷贝构造函数" << endl;
+		}
+	};
+	//class A:public Ason {
+	class A {
+	public:
+		int i;
+		//Ason son;
+
+		/*void test() {
+			cout << "test" << endl;
+		}*/
+		virtual void test() {
+
+		}
+	};
+
+
+	
+	void func() {
+		A obj;
+		obj.i = 10;
+		A obj1 = obj;
+	}
+}
+namespace test24
+{
+	class A {
+	public:
+		int i;
+		A() {
+			cout << "A构造函数" << endl;
+		}
+		A(const A& obj) {
+			i = obj.i;
+			cout << "A拷贝构造函数" << i << endl;
+		}
+		virtual ~A() {
+			cout << "析构函数" << endl;
+		}
+
+		void test() {
+			cout << "A::test" << endl;
+		}
+	};
+	void func()
+	{
+		/*A obj;
+		A x1 = obj;
+		A x2 = (obj);
+		A x3 = { obj };
+		A x4{ obj };
+		A x5(obj);*/
+
+		void* p = malloc(sizeof(A));
+
+		A* objx = new (p)A();
+
+		objx->A::A();
+
+		objx->i = 10;
+		objx->test();
+		objx->A::~A();
+		delete objx;
+
+	}
+}
 int main()
 {
 
-	//test22::func();
+	test24::func();
 
+	
+	
 
 	return 0;
 }
