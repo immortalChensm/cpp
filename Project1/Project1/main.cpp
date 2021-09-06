@@ -1365,10 +1365,43 @@ namespace test24
 
 	}
 }
+namespace test25
+{
+	class Temp {
+	public:
+		int x, y;
+		Temp(int a, int b) :x(a), y(b) {
+			cout << "Temp构造函数" << a << b << endl;
+		}
+		Temp(const Temp& obj) :x(obj.x), y(obj.y) {
+			cout << "Temp拷贝构造函数" << x << y << endl;
+		}
+		virtual ~Temp() {
+			cout << "temp析构函数" << endl;
+		}
+	};
+	Temp createObj(Temp& obj) {
+
+		/*Temp t(1,2);
+		t.x = obj.x * 3;
+		t.y = obj.y * 3;
+
+		return t;*/
+		return Temp::Temp(obj.x,obj.y);
+	}
+	void func() {
+
+
+		Temp t(10, 20);
+
+		createObj(t);
+
+	}
+}
 int main()
 {
 
-	test24::func();
+	test25::func();
 
 	
 	
