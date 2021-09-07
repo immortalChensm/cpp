@@ -1398,10 +1398,55 @@ namespace test25
 
 	}
 }
+namespace test26
+{
+	class A {
+	public:
+		int i;
+		int* m_b;
+		A() {
+			i = 0;
+			m_b = new int(10);
+			cout << "A默认构造函数" << endl;
+		}
+		virtual ~A() {
+			if (m_b!=nullptr) {
+				delete m_b;
+				m_b = nullptr;
+			}
+			
+			cout << "析构函数" << endl;
+		}
+		A(const A& obj) {
+			i = obj.i;
+			m_b = new int(100);
+			memcpy(m_b,obj.m_b,sizeof(int));
+			cout << "拷贝构造函数" << endl;
+		}
+		A(int v) {
+
+			i = v;
+			m_b = new int(10);
+			cout << "A(int v) 构造函数" << endl;
+		}
+	};
+	void func() {
+
+		A obj1 = 1;
+		obj1.A::A();
+
+		obj1.A::~A();
+		//A obj2 = A(1);
+		//A obj3 = (1);
+
+		//A obj4 = obj1;
+		
+	}
+}
 int main()
 {
 
-	test25::func();
+	test26::func();
 
 	
 	
