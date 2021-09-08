@@ -1443,10 +1443,68 @@ namespace test26
 		
 	}
 }
+namespace test27
+{
+	class B {
+	public:
+		int x;
+		B(int v=0) :x(v) {
+			cout << "B构造函数运行了" << x<< "this=" << this << endl;
+		}
+		B(const B& obj) :x(obj.x) {
+			cout << "B拷贝构造函数运行了" << x << "this=" << this << endl;
+		}
+	};
+	//class A:public B {//同样在构造函数初始化列表加
+	class A:public B {//同样在构造函数初始化列表加
+	public:
+		int i;
+		int& j;//必须有构造函数初始化列表 ，否则不行
+		const int k;//同上，必须要在初始化列表处
+		B obj;//同上
+
+		A(int value=0):i(value),j(value),k(value),obj(value) {
+		//A(int value=0):i(value),j(value),k(value),B(value) {
+		//A(int value=0):i(value),j(value),k(value) {
+			//obj = 1;
+
+			cout << "构造函数" << i<<"this="<<this<< endl;
+		}
+		A(const A& obj) :i(obj.i),j(obj.j),k(obj.k),obj(obj.obj) {
+		//A(const A& obj) :i(obj.i),j(obj.j),k(obj.k),B(obj.k) {
+			cout << "拷贝构造函数" << i << "this=" << this << endl;
+		}
+		A&operator=(const A&obj){
+			
+			i = obj.i;
+			cout << "拷贝赋值函数" << i << "this=" << this << endl;
+			return *this;
+		}
+		~A() {
+			cout << "析构函数" << i << "this=" << this << endl;
+		}
+
+	};
+	void func() {
+
+
+		//A obj(1);
+		//A obj
+		// obj.A::A(1)
+
+		//A obj2 = obj;
+		//A obj2
+		//obj2.A::A(obj)
+		//A obj3 = 100;
+		//A obj3
+		//obj3.A::A()
+		A obj(2);
+	}
+}
 int main()
 {
 
-	test26::func();
+	test27::func();
 
 	
 	
