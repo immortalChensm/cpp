@@ -1501,10 +1501,32 @@ namespace test27
 		A obj(2);
 	}
 }
+namespace test28
+{
+	class A {
+	public:
+		int i;
+		virtual void test() {}
+	};
+	void func() {
+
+		A obj;
+
+		char* a1 = reinterpret_cast<char*>(&obj);
+		char* a2 = reinterpret_cast<char*>(&(obj.i));
+
+		if (a1 == a2) {
+			cout << "虚函数表在后" << endl;
+		}
+		cout << "虚函数表指针在前" << endl;
+
+		cout << sizeof(obj) << endl;
+	}
+}
 int main()
 {
 
-	test27::func();
+	test28::func();
 
 	
 	
