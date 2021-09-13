@@ -1523,10 +1523,66 @@ namespace test28
 		cout << sizeof(obj) << endl;
 	}
 }
+namespace test29
+{
+	class Base {
+	public:
+		virtual void f() {
+			cout << "Base::f" << endl;
+		}
+		virtual void g() {
+			cout << "Base::g" << endl;
+		}
+		virtual void h() {
+			cout << "Base::h" << endl;
+		}
+	};
+	class Derive :public Base {
+	public:
+		virtual void g() {
+			cout << "Derive::g" << endl;
+		}
+	};
+	void func() {
+
+		//变量名 p
+		//变量的值  Dervive内存
+		Derive* p = new Derive();
+
+		long* pvptr = (long*)p;
+
+		//变量名 vptr
+		//变量的值  Dervie的内容的内容
+
+		long* vptr = (long*)*pvptr;
+
+
+		typedef void(*Func)();
+
+		for (int i = 0; i <= 4; i++) {
+
+			printf("vptr[%d]=0x%p\r\n",i,vptr[i]);
+		}
+
+		Func f = (Func)vptr[0];
+		Func g = (Func)vptr[1];
+		Func h = (Func)vptr[2];
+		//Func i = (Func)vptr[3];
+
+		f();
+		g();
+		h();
+		//i();
+
+		/*cout << sizeof(p) << endl;
+		cout << sizeof(Derive) << endl;
+		cout << sizeof(Base) << endl;*/
+	}
+}
 int main()
 {
 
-	test28::func();
+	test29::func();
 
 	
 	
