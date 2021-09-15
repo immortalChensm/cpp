@@ -1545,47 +1545,172 @@ namespace test29
 	};
 	void func() {
 
-		//变量名 p
-		//变量的值  Dervive内存
-		Derive* p = new Derive();
 
-		long* pvptr = (long*)p;
+		Derive obj;
 
-		//变量名 vptr
-		//变量的值  Dervie的内容的内容
+		long* p = (long*)&obj;
 
-		long* vptr = (long*)*pvptr;
-
-
+		long* vptr = (long*)(*p);
 		typedef void(*Func)();
 
-		for (int i = 0; i <= 4; i++) {
-
-			printf("vptr[%d]=0x%p\r\n",i,vptr[i]);
-		}
-
-		Func f = (Func)vptr[0];
-		Func g = (Func)vptr[1];
-		Func h = (Func)vptr[2];
-		//Func i = (Func)vptr[3];
+		Func f = (Func)(vptr[0]);
 
 		f();
-		g();
-		h();
+
+		Base b = obj;
+		//Base b ;
+
+		long* bp = (long*)&b;
+
+		long* bvptr = (long*)(*bp);
+
+		//变量名 p
+		//变量的值  Dervive内存
+		//Derive* p = new Derive();
+
+		//long* pvptr = (long*)p;
+
+		////变量名 vptr
+		////变量的值  Dervie的内容的内容
+
+		//long* vptr = (long*)*pvptr;
+
+
+		//typedef void(*Func)();
+
+		//for (int i = 0; i <= 4; i++) {
+
+		//	printf("vptr[%d]=0x%p\r\n",i,vptr[i]);
+		//}
+
+		//Func f = (Func)vptr[0];
+		//Func g = (Func)vptr[1];
+		//Func h = (Func)vptr[2];
+		////Func i = (Func)vptr[3];
+
+		//f();
+		//g();
+		//h();
 		//i();
 
 		/*cout << sizeof(p) << endl;
 		cout << sizeof(Derive) << endl;
 		cout << sizeof(Base) << endl;*/
+
+		/*Base* base = p;
+		long* pvptrb = (long*)base;
+
+		long* bvptr = (long*)*pvptrb;
+
+		Func bf = (Func)bvptr[0];
+		Func bg = (Func)bvptr[1];
+		Func bh = (Func)bvptr[2];*/
+
+
+	}
+}
+namespace test30 {
+
+	class Base1 {
+	public:
+		virtual void f() {
+			cout << "Base1::f" << endl;
+		}
+		virtual void g() {
+			cout << "Base1::g" << endl;
+		}
+	};
+	class Base2 {
+	public:
+		virtual void h() {
+			cout << "Base2::h" << endl;
+		}
+		virtual void i() {
+			cout << "Base2::i" << endl;
+		}
+	};
+
+	class Dervie:public Base1, public Base2 {
+	public:
+		virtual void f() {
+			cout << "Derive::f" << endl;
+		}
+		virtual void i() {
+			cout << "Derive::i" << endl;
+		}
+
+		virtual void mh() {
+			cout << "Derive::mh" << endl;
+		}
+		virtual void mi() {
+			cout << "Derive::mi" << endl;
+		}
+		virtual void mj() {
+			cout << "Derive::mj" << endl;
+		}
+	};
+	void func() {
+
+
+		cout << sizeof(Base1) << endl;
+		cout << sizeof(Base2) << endl;
+		cout << sizeof(Dervie) << endl;
+		//ins===>0x00EFFD58
+		//0x00EFFD58存储的内容为：cc 4f 94 00 c4 53 94 00
+		//
+		Dervie ins;
+		Base1& b1 = ins;
+		Base2& b2 = ins;
+
+		long* p = (long*)(&ins);
+		//cc 4f 94 00==>vptr
+		long* vptr = (long*)(*p);
+
+		typedef void(*Func)(void);
+
+		Func f1 = (Func)(vptr[0]);//0x00b35b7b {Project1.exe!test30::Dervie::f(void)}
+		Func f2 = (Func)(vptr[1]);//0x00b35b6c {Project1.exe!test30::Base1::g(void)}
+		Func f3 = (Func)(vptr[2]);//0x00b35b49 {Project1.exe!test30::Dervie::mh(void)}
+		Func f4 = (Func)(vptr[3]);//0x00b35b76 {Project1.exe!test30::Dervie::mi(void)}
+		Func f5 = (Func)(vptr[4]);//0x00b35b58 {Project1.exe!test30::Dervie::mj(void)}
+		Func f6 = (Func)(vptr[5]);//0x00000000
+		Func f7 = (Func)(vptr[6]);
+		Func f8 = (Func)(vptr[7]);
+
+		long* p2 = (long*)(p+1);
+		//c4 53 94 00==>vptr2
+		long* vptr2 = (long*)(*p2);
+		Func f11 = (Func)(vptr2[0]);//0x00b35b53 {Project1.exe!test30::Base2::h(void)}
+		Func f22 = (Func)(vptr2[1]);//0x00b35b67 {Project1.exe!test30::Dervie::i(void)}
+		Func f33 = (Func)(vptr2[2]);
+
+		b1.f();
+		b1.g();
+		b2.h();
+		b2.i();
+
+		ins.mh();
+		ins.mi();
+		ins.mj();
+		ins.f();
+		ins.i();
+
+		cout << "------------------------" << endl;
+		f1();
+		f2();
+		f3();
+		f4();
+		f5();
+
 	}
 }
 int main()
 {
 
-	test29::func();
+	test30::func();
 
 	
-	
+	cout << (1 >> 1) << endl;
 
 	return 0;
 }
