@@ -1704,13 +1704,64 @@ namespace test30 {
 
 	}
 }
+namespace test31
+{
+	class X {
+	public:
+		int x;
+		int y;
+		int z;
+		//X():x(0),y(0),z(0) {
+		X(){
+			//在运行构造函数之前，编译器会先在前面插入一些虚函数指针成员
+			//也就是说类对象的内存成员会被编译器修改
+			memset(this,0,sizeof(X));
+			cout << "x构造函数" << endl;
+		}
+		//X(const X& obj) :x(obj.x), y(obj.y), z(obj.z) {
+		X(const X&obj) {
+			memcpy(this,&obj,sizeof(X));
+			cout << "x拷贝构造函数" << endl;
+		}
+		virtual ~X() {
+			cout << "x虚析构函数" << endl;
+		}
+		virtual void virfunc() {
+			cout << "x virfunc" << endl;
+		}
+		void ptfunc() {
+			cout << "x ptfunc" << endl;
+		}
+	};
+	void func() {
+
+
+		/*X obj;
+		obj.x = 1;
+		obj.y = 2;
+		obj.z = 3;
+
+		obj.virfunc();//静态联编  在编译时就已经固定好，不走虚函数表
+
+		X obj1(obj);
+
+		cout << obj.x << obj.y << obj.z << endl;*/
+
+		//它要走虚函数表，而虚函数表已被memset设置为空
+		X* obj = new X();
+		obj->virfunc();
+		delete obj;
+	}
+}
 int main()
 {
 
-	test30::func();
+	test31::func();
 
 	
-	cout << (1 >> 1) << endl;
+	//cout << (1 >> 1) << endl;
+
+	
 
 	return 0;
 }
