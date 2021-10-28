@@ -3,4 +3,9 @@ E:\cpp2\Project1\Project1\main.cpp(170,30): warning C4291: “void *test2::A::op
 E:\cpp2\Project1\Project1\main.cpp(145): message : 参见“test2::A::operator new”的声明
 E:\cpp2\Project1\Project1\main.cpp(194,21): warning C4018: “<”: 有符号/无符号不匹配
 E:\cpp2\Project1\Project1\main.cpp(359,21): warning C4018: “<”: 有符号/无符号不匹配
+E:\cpp2\Project1\Project1\main.cpp(1828,10): warning C4477: “printf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 1 拥有了类型“int test33::A::* ”
+E:\cpp2\Project1\Project1\main.cpp(1829,10): warning C4477: “printf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 1 拥有了类型“int test33::A::* ”
+E:\cpp2\Project1\Project1\main.cpp(1830,10): warning C4477: “printf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 1 拥有了类型“int test33::A::* ”
+E:\cpp2\Project1\Project1\main.cpp(1831,10): warning C4477: “printf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 1 拥有了类型“char test33::A::* ”
+E:\cpp2\Project1\Project1\main.cpp(1832,10): warning C4477: “printf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 1 拥有了类型“int test33::A::* ”
   Project1.vcxproj -> E:\cpp2\Project1\Debug\Project1.exe

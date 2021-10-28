@@ -1753,10 +1753,106 @@ namespace test31
 		delete obj;
 	}
 }
+namespace test32
+{
+	string myvar="china";
+
+	typedef string types;
+	class X {
+	public:
+
+		/*int show() {
+			return myvar;
+		}*/
+		//int show(types n);
+	private:
+		//int myvar = 5;
+		types n;
+		typedef int types;
+	};
+	//int X::show(types n) {
+		//cout << test32::myvar << endl;
+		//cout << n << endl;
+		//return 0;
+	//}
+	string show() {
+		return myvar;
+	}
+	void func() {
+
+		X obj;
+		//cout << obj.show("ddd") << endl;
+	}
+}
+namespace test33
+{
+//#pragma pack(1)
+	class A {
+	public:
+		int i;
+		static int is;
+
+		int j;
+		static int js;
+
+		int k;
+		static int ks;
+
+		char m;
+		int n;
+
+		void printMemb() {
+
+		}
+		virtual void shows() {
+
+		}
+	};
+	void func() {
+
+		A obj;
+		obj.i = 1;
+		obj.j = 2;
+		obj.k = 3;
+		obj.m = 4;
+		obj.n = 5;
+		cout << sizeof(obj) << endl;
+
+		printf("A::i=%p\r\n",&obj.i);
+		printf("A::j=%p\r\n",&obj.j);
+		printf("A::k=%p\r\n",&obj.k);
+		printf("A::m=%p\r\n",&obj.m);
+		printf("A::n=%p\r\n",&obj.n);
+
+		cout << "----------------------Æ«ÒÆ" << endl;
+		printf("A::i=%d\r\n", &A::i);
+		printf("A::j=%d\r\n", &A::j);
+		printf("A::k=%d\r\n", &A::k);
+		printf("A::m=%d\r\n", &A::m);
+		printf("A::n=%d\r\n", &A::n);
+
+
+		cout << "=====================" << endl;
+		printf("A::i=%p\r\n",&obj.i);
+		printf("A=%p\r\n",&obj);
+
+
+		cout << "-------------------" << endl;
+		long* pa = (long*)&obj;
+
+		/*printf("A::i=%d\r\n", *(pa));
+		printf("A::j=%d\r\n", *(pa+1));
+		printf("A::k=%d\r\n", *(pa+2));
+		printf("A::m=%d\r\n", *(pa+3));
+		printf("A::n=%d\r\n", *(pa+4));*/
+
+
+	}
+}
 int main()
 {
 
-	test31::func();
+	test33::func();
 
 	
 	//cout << (1 >> 1) << endl;
