@@ -1849,10 +1849,116 @@ namespace test33
 
 	}
 }
+namespace test34 {
+
+	class F {
+	public:
+		int fi;
+		int fj;
+	};
+	class A:public F{
+	public:
+		int i;
+		static int s_i;
+		int j;
+
+		void myfunc() {
+
+			this->i = 20;
+			this->j = 30;
+		}
+	};
+	int A::s_i = 0;
+	void func() {
+
+		//数据成员布局
+		cout << sizeof(A) << endl;
+		printf("A::i=%d\n",&A::i);
+		printf("A::j=%d\n", &A::j);
+		printf("A::s_i=%d\n", &A::s_i);
+
+		A obj;
+		obj.i = 1;
+		obj.j = 2;
+		obj.s_i = 3;
+
+		int* data = (int*)(&obj);
+		*data = 100;
+		*(data + 3) = 200;
+
+		char* data1 = (char*)(&obj);
+		*(data1+8) = 'a';
+		*(data1 + 12) = 'b';
+
+		printf("A::i=%p\n", &obj.i);
+		printf("A::j=%p\n", &obj.j);
+		printf("A::s_i=%p\n", &obj.s_i);
+
+		printf("A::i=%c\n", obj.i);
+		printf("A::j=%c\n", obj.j);
+		printf("A::s_i=%d\n", obj.s_i);
+
+
+		obj.myfunc();
+
+		printf("A=%p\n", &obj);
+		printf("A::fi=%p\n", &obj.fi);
+		printf("A::fj=%p\n", &obj.fj);
+
+	}
+}
+namespace test35 {
+
+	class Base1 {
+	public:
+		int i;
+		//char a;
+		//char b;
+		//char c;
+	};
+
+	class Base2 :public Base1 {
+	public:
+		char a;
+	};
+	class Base3 :public Base2 {
+	public:
+		char b;
+	};
+	class Base4 :public Base3 {
+	public:
+		char c;
+	};
+	void func() {
+
+		/*cout << sizeof(Base1) << endl;
+
+		printf("i=%d\n",&Base1::i);
+		printf("a=%d\n",&Base1::a);
+		printf("b=%d\n",&Base1::b);
+		printf("c=%d\n",&Base1::c);*/
+
+		cout << sizeof(Base1) << endl;
+		cout << sizeof(Base2) << endl;
+		cout << sizeof(Base3) << endl;
+		cout << sizeof(Base4) << endl;
+
+		printf("i=%d\n", &Base4::i);
+		printf("a=%d\n", &Base4::a);
+		printf("b=%d\n", &Base4::b);
+		printf("c=%d\n", &Base4::c);
+
+		//没有继承关系时，是9个字节  继承后是16个字节，浪费了内存
+		//在不同的编译器上编译时结果可能不一样
+
+		//总之对象内存布局某位置存放什么数据了解就可以
+
+	}
+}
 int main()
 {
 
-	test33::func();
+	test35::func();
 
 	
 	//cout << (1 >> 1) << endl;
