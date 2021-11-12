@@ -1955,10 +1955,155 @@ namespace test35 {
 
 	}
 }
+namespace test36
+{
+	class Base {
+	public:
+		int bi;
+		/*virtual void test() {
+
+		}*/
+	};
+	class A:public Base {
+	public:
+		int i;
+		int j;
+		virtual void show() {
+
+		}
+		A() {
+			//00E55EB0  mov         dword ptr [eax],offset test36::A::`vftable' (0E876ACh)  
+			int x = 10;
+		}
+		~A() {
+			int y = 20;
+		}
+
+	};
+	void func() {
+
+		cout << sizeof(A) << endl;
+
+		printf("A::i=%d\r\n",&A::i);
+		printf("A::j=%d\r\n",&A::j);
+		printf("A::bi=%d\r\n",&A::bi);
+
+		//数据成员内存布局：单纯类有虚函数和数据布局：ac 76 a3 00 2c 01 00 00 fa ff 00 00
+		//                虚函数表指针  300         65530
+		A obj;
+		obj.i = 300;
+		obj.j = 65530;
+		obj.bi = 999;
+		//单纯类有虚函数继承：ac 76 37 01 e7 03 00 00 2c 01 00 00 fa ff 00 00
+		//虚函数表指针    999      300          65530
+
+		//单纯类有虚函数
+
+		//1 一个类如果有虚函数，则会在构造及析构函数里添加赋值代码（即虚函数表指针）
+		//2 虚函数表指针一般是类对象的首地址
+		//3 一个类如果继承多个类，每个类都有虚函数表，则会存在多个虚函数表指针
+
+	}
+}
+namespace test37
+{
+	class Base1 {
+	public:
+		int m_b1;
+		virtual void myvir1() {
+
+		}
+		Base1() {
+			printf("Base1=%p\r\n",this);
+		}
+	};
+	class Base2 {
+	public:
+		int m_b2;
+		virtual void myvir2() {
+
+		}
+		Base2() {
+			printf("Base2=%p\r\n", this);
+		}
+	};
+
+	class MY :public Base1, public Base2 {
+	public:
+		int x;
+		int y;
+		MY() {
+			printf("My=%p\r\n", this);
+		}
+	};
+
+	void func() {
+
+
+		cout << sizeof(MY) << endl;
+
+		printf("MY::m_b1=%d\r\n",&MY::m_b1);
+		printf("MY::m_b2=%d\r\n",&MY::m_b2);
+		printf("MY::x=%d\r\n",&MY::x);
+		printf("MY::y=%d\r\n",&MY::y);
+
+
+		MY obj;
+		obj.m_b1 = 3;
+		obj.m_b2 = 6;
+		obj.x = 9;
+		obj.y = 12;
+		//类对象实例内存布局
+		//00 77 31 01 03 00 00 00 0c 77 31 01 06 00 00 00 09 00 00 00 0c 00 00 00
+		//函数表指针    3             函数表指针  6           9           12
+		// Base1                      Base2                  MY
+		//         8                          8                     8
+		
+		Base2* b2 = &obj;
+
+
+
+
+
+	}
+}
+namespace test38
+{
+	class Grand {
+	public:
+		int i;
+	};
+	class A1 :virtual public Grand {
+	public:
+	};
+	class A2 :virtual public Grand {
+	public:
+	};
+
+	class C :public A1, public A2 {
+	public:
+	};
+
+	void func() {
+
+		cout << sizeof(Grand) << endl;
+		cout << sizeof(A1) << endl;
+		cout << sizeof(A2) << endl;
+		cout << sizeof(C) << endl;
+
+		C obj;
+		//obj.i = 10;//error C2385: 对“i”的访问不明确
+		obj.A1::i = 10;
+		obj.A2::i = 20;
+		//b0 7d b5 00 00 7f b5 00 14 00 00 00
+		cout << obj.A1::i << endl;
+		cout << obj.A2::i << endl;
+	}
+}
 int main()
 {
 
-	test35::func();
+	test38::func();
 
 	
 	//cout << (1 >> 1) << endl;

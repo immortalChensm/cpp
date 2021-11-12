@@ -15,4 +15,11 @@ E:\cpp2\Project1\Project1\main.cpp(1946,10): warning C4477: “printf”: 格式
 E:\cpp2\Project1\Project1\main.cpp(1947,10): warning C4477: “printf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 1 拥有了类型“char test35::Base2::* ”
 E:\cpp2\Project1\Project1\main.cpp(1948,10): warning C4477: “printf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 1 拥有了类型“char test35::Base3::* ”
 E:\cpp2\Project1\Project1\main.cpp(1949,10): warning C4477: “printf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 1 拥有了类型“char test35::Base4::* ”
+E:\cpp2\Project1\Project1\main.cpp(1987,10): warning C4477: “printf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 1 拥有了类型“int test36::A::* ”
+E:\cpp2\Project1\Project1\main.cpp(1988,10): warning C4477: “printf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 1 拥有了类型“int test36::A::* ”
+E:\cpp2\Project1\Project1\main.cpp(1989,10): warning C4477: “printf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 1 拥有了类型“int test36::Base::* ”
+E:\cpp2\Project1\Project1\main.cpp(2045,10): warning C4477: “printf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 1 拥有了类型“int test37::Base1::* ”
+E:\cpp2\Project1\Project1\main.cpp(2046,10): warning C4477: “printf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 1 拥有了类型“int test37::Base2::* ”
+E:\cpp2\Project1\Project1\main.cpp(2047,10): warning C4477: “printf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 1 拥有了类型“int test37::MY::* ”
+E:\cpp2\Project1\Project1\main.cpp(2048,10): warning C4477: “printf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 1 拥有了类型“int test37::MY::* ”
   Project1.vcxproj -> E:\cpp2\Project1\Debug\Project1.exe
