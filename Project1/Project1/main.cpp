@@ -2100,10 +2100,78 @@ namespace test38
 		cout << obj.A2::i << endl;
 	}
 }
+namespace test39
+{
+	class Grand {
+	public:
+		int i;
+	};
+	class Grand2 {
+	public:
+		int i2;
+	};
+	/*class A1 :virtual public Grand,virtual public Grand2 {
+	public:
+		int a1;
+	};*/
+	class A1 :virtual public Grand {
+	public:
+		int a1;
+	};
+	class A2 :virtual public Grand {
+	public:
+		int a2;
+	};
+
+	class C :public A1, public A2 {
+	public:
+		int c1;
+	};
+
+	void func() {
+
+		cout << sizeof(Grand) << endl;
+		cout << sizeof(A1) << endl;
+		cout << sizeof(A2) << endl;
+		cout << sizeof(C) << endl;
+
+
+		/*A1 obj;
+		obj.a1 = 20;
+		obj.i = 9;
+		obj.i2 = 8;*/
+		//虚基类表指针|类成员
+		//90 87 9f 00 14 00 00 00 09 00 00 00
+		//0-4|5-8|8-12
+		//vbptr|a1|i
+		//00 00 00 00 08 00 00 00
+
+		C obj;
+		obj.i = 1;
+		obj.a1 = 2;
+		obj.a2 = 3;
+		obj.c1 = 5;
+		//e0 8d ef 00 02 00 00 00 30 8f ef 00 03 00 00 00 05 00 00 00 01 00 00 00
+		//vbptr       |a1         |vbptr       |a2          |c        |grand
+		//               A1                       A2              C     Grand
+		//
+		A1* a1 = &obj;
+
+		printf("obj=%p\n",&obj);
+		printf("obj.i=%p\n",&(obj.i));
+		printf("obj.a1=%p\n",&(obj.a1));
+
+		printf("a1=%p\n", &a1);
+		printf("a1.i=%p\n", &(a1->i));
+		printf("a1.a1=%p\n", &(a1->a1));
+
+		
+	}
+}
 int main()
 {
 
-	test38::func();
+	test39::func();
 
 	
 	//cout << (1 >> 1) << endl;
