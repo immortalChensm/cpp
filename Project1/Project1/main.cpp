@@ -2168,15 +2168,94 @@ namespace test39
 		
 	}
 }
+namespace test40
+{
+	class A {
+	public:
+		int i;
+		int j;
+		int k;
+		void test() {
+			cout <<this<< i << j << k << endl;
+		}
+	};
+	void func() {
+
+		A obj1;
+		obj1.i = obj1.j = obj1.k = 0;
+		A* obj2 = new A();
+		obj2->i = obj2->i = obj2->k = 0;
+
+		printf("obj1.i=%p\r\n",&obj1.i);
+		printf("obj1.j=%p\r\n",&obj1.j);
+		printf("obj1.k=%p\r\n",&obj1.k);
+
+		printf("obj2.i=%p\r\n", &obj2->i);
+		printf("obj2.j=%p\r\n", &obj2->j);
+		printf("obj2.k=%p\r\n", &obj2->k);
+
+
+		printf("A.i=%d\r\n", &A::i);
+		printf("A.j=%d\r\n", &A::j);
+		printf("A.k=%d\r\n", &A::k);
+
+		int A::*x = &A::i;//这里的偏移值是有意义的
+
+		printf("x=%d\n",x);
+
+		int A::*m;
+		m = 0;//虽然表面是0，结果是-1
+
+		printf("m=%d\n", m);
+		obj1.*x = 100;
+		printf("i=%d\n",obj1.*x);
+
+		obj2->*x = 200;
+		printf("i=%d\n", obj2->*x);
+
+		void (A:: * fun)(void) = &A::test;
+
+
+		(obj1.*fun)();
+		(obj2->*fun)();
+	}
+}
+namespace test41
+{
+	class A {
+	public:
+		int i;
+		void test(int a){
+			i += a;
+		}
+	};
+	void testb(A *obj,int a){
+		obj->i += a;
+	}
+	void func() {
+
+		A obj;
+		obj.i = 10;
+		obj.test(10);
+		//call        test41::A::test (08C678Fh)  
+		//test()
+
+
+		testb(&obj,20);//这里的全局函数和上面的成员 函数调用本质是一样的
+		//编译器会转换为全局函数形式调用，同时隐匿的传递obj对象作为this参数
+
+		printf("A::test=%p\n",&A::test);
+	}
+}
 int main()
 {
 
-	test39::func();
+	test41::func();
 
 	
 	//cout << (1 >> 1) << endl;
 
-	
+
 
 	return 0;
 }
