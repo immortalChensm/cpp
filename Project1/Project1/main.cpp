@@ -2247,10 +2247,77 @@ namespace test41
 		printf("A::test=%p\n",&A::test);
 	}
 }
+namespace test42
+{
+	class A {
+	public:
+		virtual void show() {
+			cout << "a" <<this<< endl;
+		}
+	};
+	class B :public A {
+	public:
+		virtual void show() {
+			cout << "b" << this << endl;
+		}
+	};
+
+	class C :public A {
+	public:
+		virtual void show() {
+			cout << "c" << this << endl;
+		}
+	};
+	void func() {
+
+		A* obj = new B();
+		obj->show();
+
+		obj = new C();
+		obj->show();
+
+		cout << sizeof(C) << endl;
+		cout << sizeof(B) << endl;
+		cout << sizeof(A) << endl;
+	}
+}
+namespace test43
+{
+	class A {
+	public:
+		int m_i{ 100 };
+		virtual void show() {
+			m_i += 200;
+			cout << "show" << endl;
+		}
+		static void myshow() {
+			
+			cout << "static myshow" << endl;
+		}
+	};
+	void func() {
+
+		//虚函数和静态函数调用
+		A obj;
+		obj.show();
+		obj.myshow();
+
+		A* obj1 = new A();
+		obj1->myshow();
+		obj1->show();
+
+		A::myshow();
+		//A::show();
+
+		((A*)0)->myshow();
+
+
+	}
+}
 int main()
 {
 
-	test41::func();
+	test43::func();
 
 	
 	//cout << (1 >> 1) << endl;
