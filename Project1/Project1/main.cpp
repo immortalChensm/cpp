@@ -2314,10 +2314,323 @@ namespace test43
 
 	}
 }
+namespace test44 {
+
+	class Base {
+	public:
+		void myfunc() {
+			cout << "Base::myfunc" << endl;
+		}
+		virtual void myvfunc(int v=1) {
+			cout << "Base::myvfunc" <<"v="<<v<< endl;
+		}
+	};
+	class Derive:public Base {
+	public:
+		void myfunc() {
+			cout << "Derive::myfunc" << endl;
+		}
+		virtual void myvfunc(int v = 2) {
+			cout << "Derive::myvfunc" << "v=" << v << endl;
+		}
+	};
+
+	class Derive2 :public Base {
+	public:
+		void myfunc() {
+			cout << "Derive2::myfunc" << endl;
+		}
+		virtual void myvfunc(int v = 3) {
+			cout << "Derive2::myvfunc" << "v=" << v << endl;
+		}
+	};
+
+	void func() {
+		//静态类型：编译期确定的类型  动态类型：运行时确定的类型
+		//静态绑定：普通函数  带缺省参数的函数  
+		//动态绑定：虚函数
+		//多态：运行时走虚函数表
+		Base* b1 = new Base();
+		b1->myfunc();
+		b1->myvfunc();
+		b1 = new Derive();
+		b1->myfunc();
+		b1->myvfunc();
+		b1 = new Derive2();
+		b1->myfunc();
+
+		cout << "==================" << endl;
+
+		b1->myvfunc();
+		/**
+		b1->myvfunc();
+011730FC  mov         esi,esp  
+011730FE  push        1  
+01173100  mov         eax,dword ptr [b1]  
+01173103  mov         edx,dword ptr [eax]  
+01173105  mov         ecx,dword ptr [b1]  
+01173108  mov         eax,dword ptr [edx]  
+0117310A  call        eax  
+		**/
+		cout << "=======普通类对象===========" << endl;
+		Derive a;
+		a.myfunc();
+		a.myvfunc();
+		/**
+				a.myvfunc();
+0117314C  push        2  
+0117314E  lea         ecx,[a]  
+01173151  call        test44::Derive::myvfunc (01137CACh) 
+		**/
+		cout << "========普通类引用==========" << endl;
+		Derive& c = a;
+		c.myfunc();
+		c.myvfunc();
+		/**
+		
+		c.myvfunc();
+0117318D  mov         esi,esp  
+0117318F  push        2  
+01173191  mov         eax,dword ptr [c]  
+01173194  mov         edx,dword ptr [eax]  
+01173196  mov         ecx,dword ptr [c]  
+01173199  mov         eax,dword ptr [edx]  
+0117319B  call        eax  
+0117319D  cmp         esi,esp  
+0117319F  call        __RTC_CheckEsp (01137167h) 
+		**/
+
+		//引用，指针会走虚函数表 
+		//普通的类对象  不走虚函数表，直接调用 
+
+	}
+}
+namespace test45 {
+
+	class Base {
+	public:
+		virtual void f() {
+			cout << "Base::f" << endl;
+		}
+		virtual void g() {
+			cout << "Base::g" << endl;
+		}
+		virtual void h() {
+			cout << "Base::h" << endl;
+		}
+
+		virtual ~Base() {
+
+		}
+	};
+	class Base2 {
+	public:
+		virtual void HBase2() {
+			cout << "Base2::HBase2" << endl;
+		}
+		virtual ~Base2() {
+
+		}
+	};
+	class Dervive :public Base, public Base2 {
+	public:
+		virtual void i() {
+			cout << "Derive::i" << endl;
+		}
+		virtual void g() {
+			cout << "Derive::g" << endl;
+		}
+		virtual void myself() {
+			cout << "Dervice::myself" << endl;
+		}
+		virtual ~Dervive() {
+
+		}
+	};
+	void func() {
+
+
+		/*Base2* a = new Dervive();
+
+		a->HBase2();*/
+		//Base* a = new Base();
+		//Base2* b = new Base2();
+		//Dervive* c = new Dervive();
+
+		//a->g();
+		//b->HBase2();
+		//c->g();
+		//a = c;
+
+		//a->g();
+
+
+		//b = new Dervive();
+		//b->g();
+
+		Base2* a = new Dervive();
+
+		//Dervive:vptr1 vptr2 本身
+		//给a之后，地址调整为a，给了一半的地址
+		a->HBase2(); 
+
+		delete a;//释放时错误，加虚析构函数就行
+
+		/**
+		变量a地址：0x003CFD90
+		变量a的内容：1c 2d a6 00  [0x00A62D1C] virtual table ptr 虚函数表指针
+
+		0x00A62D1C的内容：34 ba 2a 00 [0x002ABA34]  virtual table 虚函数表
+
+		0x002ABA34的内容：d7 65 25 00 fc 7c 25 00  virtual table虚函数表的内容
+		0x002565d7 {Project1.exe!test45::Base2::HBase2(void)}
+		0x00257cfc {Project1.exe![thunk]:test45::Dervive::`vector deleting destructor'`adjustor{4}' (unsigned int)}
+		**/
+
+		//long* vptr = (long*)(a);//1c 2d a6 00
+		//long* vp = (long*)(*vptr);//34 ba 2a 00
+
+		//using FUNC = void(*)();
+
+		//FUNC f1 = (FUNC)vp[0];
+		//a == *(&a)
+		//f1();
+
+
+
+
+	}
+}
+namespace test46
+{
+	class Base {
+	public:
+		virtual void f() {
+			cout << "Base::f" << endl;
+		}
+		virtual void g() {
+			cout << "Base::g" << endl;
+		}
+		virtual void h() {
+			cout << "Base::h" << endl;
+		}
+
+		virtual ~Base() {
+
+		}
+		virtual Base* clone() const {
+			cout << "Base* clone() " << endl;
+			return new Base();
+		}
+	};
+	class Base2 {
+	public:
+		virtual void HBase2() {
+			cout << "Base2::HBase2" << endl;
+		}
+		virtual ~Base2() {
+
+		}
+		virtual Base2* clone() const {
+			cout << "Base2* clone() " << endl;
+			return new Base2();
+		}
+	};
+	class Dervive :public Base, public Base2 {
+	public:
+		virtual void i() {
+			cout << "Derive::i" << endl;
+		}
+		virtual void g() {
+			cout << "Derive::g" << endl;
+		}
+		virtual void myself() {
+			cout << "Dervice::myself" << endl;
+		}
+		virtual ~Dervive() {
+
+		}
+		virtual Dervive* clone() const {
+			cout << "Dervive* clone()" << endl;
+			return new Dervive();
+		}
+	};
+	/*class Base {
+	public:
+		virtual ~Base() {
+
+		}
+		int basei;
+	};
+	class Derivce :virtual public Base {
+	public:
+		virtual ~Derivce() {
+
+		}
+		void f() {
+			cout << "f" << endl;
+		}
+		int derivcei;
+	};*/
+	void func() {
+
+		//cout << "Derivce=" << sizeof(Derivce) << endl;
+		///*auto x = new Derivce();
+		//x->basei = 2;
+		//x->derivcei = 5;*/
+
+		//Derivce x;
+		//x.basei = 5;
+		//x.derivcei = 2;
+
+
+		Dervive x;
+
+		Base2* a = &x;
+		a->HBase2();
+
+		Base* b = &x;
+		b->g();
+
+		/**
+		0x006FF6E4  98 ba 37 00    b8 bd 37 00  x  Derive
+
+0x006FF6D8  e8 f6 6f 00    a            Base2 
+
+0x006FF6CC  e4 f6 6f 00   b     Base
+
+
+		**/
+
+		/*auto x= new Dervive();
+	
+
+		Base2* a = x;
+		a->HBase2();
+
+		Base* b = new Dervive();
+		b->g();
+
+		Base* c = b->clone();
+
+
+
+		cout << "Dervive=" << sizeof(Dervive) << endl;
+		cout << "Base2=" << sizeof(Base2) << endl;
+		cout << "Base=" << sizeof(Base) << endl;
+		printf("Dervive=%p\r\n",&x);
+		printf("Base2=%p\r\n",&a);
+		printf("Base=%p\r\n",&b);
+
+		delete a;
+		delete b;*/
+
+	}
+}
 int main()
 {
 
-	test43::func();
+	test46::func();
 
 	
 	//cout << (1 >> 1) << endl;
