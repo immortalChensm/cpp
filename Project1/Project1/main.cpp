@@ -2627,10 +2627,77 @@ namespace test46
 
 	}
 }
+
+namespace test47
+{
+
+	class Base {
+	public:
+		virtual void f() {
+			cout << "Base::f" << endl;
+		}
+		virtual void g() {
+			cout << "Base::g" << endl;
+		}
+		virtual void h() {
+			cout << "Base::h" << endl;
+		}
+		virtual ~Base() {
+
+		}
+	};
+	class Derived :public Base {
+	public:
+		virtual void f() {
+			cout << "Derived::f" << endl;
+		}
+		virtual void g() {
+			cout << "Derived::g" << endl;
+		}
+		virtual void h() {
+			cout << "Derived::h" << endl;
+		}
+		virtual void myself() {
+			cout << "Derived::myself" << endl;
+		}
+	};
+	void func() {
+
+		Base* a = new Derived();
+
+		a->g();
+	
+		Derived d;
+		Base& b = d;
+		b.f();
+
+
+		const std::type_info& infoa = typeid(*a);
+		cout << infoa.name() << endl;
+
+		const std::type_info& infob = typeid(b);
+		cout << infob.name() << endl;
+		
+
+		cout << typeid(int).name() << endl;
+		cout << typeid(Base).name() << endl;
+		cout << typeid(Base*).name() << endl;
+
+		if (typeid(*a) == typeid(b)) {
+			cout << "==" << endl;
+		}
+
+		Derived* c = dynamic_cast<Derived*>(a);
+		if (c != NULL) {
+			c->myself();
+		}
+		delete a;
+	}
+}
 int main()
 {
 
-	test46::func();
+	test47::func();
 
 	
 	//cout << (1 >> 1) << endl;
