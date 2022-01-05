@@ -2694,13 +2694,122 @@ namespace test47
 		delete a;
 	}
 }
+namespace test48 {
+
+	__int64 mytest(int x){
+	
+		
+		__int64 count = 0;
+		for (int i = 0; i < 10000; i++) {
+			count += 1;
+		}
+		return count;
+	}
+	void func() {
+
+
+		__int64 res = 0;
+		clock_t start, end;
+		start = clock();
+
+
+		for (int i = 0; i < 1000; i++) {
+
+			res = mytest(6);
+		}
+		end = clock();
+
+		cout << "毫秒time=" << end - start << endl;
+
+
+	}
+}
+namespace test49
+{
+	class A {
+	public:
+		void myfunc1(int v){
+			cout << "v1" << v << endl;
+		}
+		void myfunc2(int v) {
+			cout << "v2" << v << endl;
+		}
+		static void mysfunc(int v) {
+			cout << "mysfunc v" << v << endl;
+		}
+		virtual void myvirfuncPrev(int v) {
+			cout << "A myvirfunc v" << v << endl;
+		}
+		virtual void myvirfunc(int v) {
+			cout << "A myvirfunc v" << v << endl;
+		}
+	};
+	class B :public A {
+	public:
+		virtual void myvirfuncPrev(int v) {
+			cout << "B myvirfunc v" << v << endl;
+		}
+		virtual void myvirfunc(int v) {
+			cout << "B myvirfunc v" << v << endl;
+		}
+
+	};
+	void func() {
+
+
+		/*void (A::*a1)(int v) = &A::myfunc1;
+		A obj;
+		A* objx = new A;
+		(obj.*a1)(100);
+
+
+		(objx->*a1)(200);
+
+		static void (*a2)(int v) = &A::mysfunc;
+		a2(900);
+
+		a1 = &A::myvirfunc;
+		(obj.*a1)(888);*/
+
+		B* obj = new B;
+
+		/**
+		mov         dword ptr [f],offset test49::A::`vcall'{0}' (0CB8E37h)  
+		00CB8E37  jmp         test49::A::`vcall'{0}' (0CE11E6h)  
+
+		虚函数增加后
+		002C5B17  mov         dword ptr [f],offset test49::A::`vcall'{4}' (0288E46h)
+
+		*/
+		void (B:: * f)(int v) = &A::myvirfunc;
+		(obj->*f)(999);
+
+		delete obj;
+
+	}
+}
+namespace test50 {
+
+	//给inline后编译器会展开，而不是使用call汇编指令调用函数了
+	//当然要看inline函数是否复杂，编译器会判断决定是否优化
+	inline int test(int v) {
+		return v + 4 + 5 * v;
+	}
+	void func() {
+		//call        test50::test (0ED721Ch)  
+		int j = test(10 + 50);
+		cout << "j" << j << endl;
+	}
+}
 int main()
 {
 
-	test47::func();
+	test50::func();
 
 	
 	//cout << (1 >> 1) << endl;
+
+	
 
 
 
